@@ -1,4 +1,6 @@
+
 "use client";
+
 import { useParams } from "next/navigation";
 import Link from "next/link";
 
@@ -50,7 +52,8 @@ const cards = [
       "Fluid level check",
       "Quick inspection of belts and hoses",
     ],
-    notes: "Recommended every 5,000-7,500 miles depending on your car.",
+    notes:
+      "Recommended every 5,000-7,500 miles depending on your car.",
   },
   {
     id: 4,
@@ -83,7 +86,8 @@ const cards = [
       "Brake fluid level check",
       "Caliper function test",
     ],
-    notes: "Regular checks prevent accidents and maintain stopping power.",
+    notes:
+      "Regular checks prevent accidents and maintain stopping power.",
   },
   {
     id: 6,
@@ -133,7 +137,8 @@ const cards = [
       "Gas level refill",
       "System performance test",
     ],
-    notes: "Recommended before summer or if AC is blowing warm air.",
+    notes:
+      "Recommended before summer or if AC is blowing warm air.",
   },
   {
     id: 9,
@@ -155,77 +160,198 @@ const cards = [
 
 export default function CardDetail() {
   const { id } = useParams();
-  const card = cards.find((c) => c.id === parseInt(id));
+
+  const card = cards.find((item) => item.id === Number(id));
 
   if (!card) {
-    return <div className="p-8 text-red-500 text-center">Card not found!</div>;
+    return (
+      <main className="flex min-h-screen items-center justify-center bg-black px-6">
+        <div className="text-center">
+          <div className="mb-4 text-5xl text-red-800">
+            <i className="ri-error-warning-line" />
+          </div>
+
+          <h1 className="text-2xl font-bold text-white">
+            Service Not Found
+          </h1>
+
+          <p className="mt-2 text-gray-400">
+            The service you are looking for does not exist.
+          </p>
+
+          <Link
+            href="/Cards"
+            className="mt-6 inline-flex items-center gap-2 rounded-lg bg-red-900 px-6 py-3 font-semibold text-white transition hover:bg-red-800"
+          >
+            <i className="ri-arrow-left-line" />
+            Back to Services
+          </Link>
+        </div>
+      </main>
+    );
   }
 
   return (
-   <div className="max-w-6xl mx-auto p-6 sm:p-8">
-  {/* Title */}
-  <h1 className="text-3xl sm:text-4xl font-bold mb-6 text-center sm:text-left text-white">
-    {card.title}
-  </h1>
+    <main className="min-h-screen bg-black px-5 pb-20 pt-28 sm:px-8 lg:px-12">
+      <div className="mx-auto max-w-7xl">
+        {/* Breadcrumb */}
+        <div className="mb-8 flex items-center gap-2 text-sm text-gray-500">
+          <Link
+            href="/Cards"
+            className="transition hover:text-white"
+          >
+            Services
+          </Link>
 
-  {/* Side-by-side layout */}
-  <div className="flex flex-col md:flex-row md:gap-8 items-start">
-    {/* Image on left */}
-    <div className=" mb-6 md:mb-0 md:w-1/2">
-      <img
-        className="w-full rounded-lg shadow-lg object-cover"
-        src={card.img}
-        alt={card.title}
-      />
-    </div>
+          <i className="ri-arrow-right-s-line" />
 
-    {/* Details on right */}
-    <div className="md:w-1/2 text-gray-400 space-y-4">
-      {/* Description */}
-      <p>{card.desc}</p>
-
-      {/* Price & Duration */}
-      <div className="flex flex-col sm:flex-row sm:gap-6">
-        <p className="font-semibold">
-          Price: <span className="text-red-800">{card.price}</span>
-        </p>
-        <p className="font-semibold">
-          Duration: <span className="text-red-800">{card.duration}</span>
-        </p>
-      </div>
-
-      {/* Features */}
-      <div>
-        <h2 className="text-white text-xl font-semibold mb-2">Included Services:</h2>
-        <ul className="list-disc list-inside space-y-1">
-          {card.features.map((feature, idx) => (
-            <li key={idx}>{feature}</li>
-          ))}
-        </ul>
-      </div>
-
-      {/* Notes */}
-      {card.notes && (
-        <div className="bg-gray-100 p-4 rounded text-gray-700">
-          <h2 className="font-semibold mb-1">Notes:</h2>
-          <p>{card.notes}</p>
+          <span className="text-gray-300">{card.title}</span>
         </div>
-      )}
 
-      {/* Buttons */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-start gap-4 mt-4">
-        <Link href="/Booking">
-        <button className="bg-red-900 hover:bg-red-800 text-white font-semibold py-3 px-6 rounded transition">
-          {card.button}
-        </button>
-        </Link>
-        <Link href="/Cards" className="text-white hover:underline">
-          ← Back to all services
-        </Link>
+        {/* Main Content */}
+        <div className="grid overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] shadow-2xl shadow-black/50 lg:grid-cols-2">
+          {/* Image */}
+          <div className="group relative min-h-[380px] overflow-hidden lg:min-h-[650px]">
+            <img
+              src={card.img}
+              alt={card.title}
+              className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+            />
+
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/20 to-transparent" />
+
+            {/* Service Number */}
+            <div className="absolute left-6 top-6 flex h-11 w-11 items-center justify-center rounded-xl border border-white/15 bg-black/70 text-sm font-bold text-white backdrop-blur-md">
+              {String(card.id).padStart(2, "0")}
+            </div>
+
+            {/* Image Content */}
+            <div className="absolute bottom-7 left-6 right-6">
+              <p className="mb-2 text-xs font-semibold uppercase tracking-[0.3em] text-red-700">
+                AutoCare Service
+              </p>
+
+              <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
+                {card.title}
+              </h2>
+            </div>
+          </div>
+
+          {/* Details */}
+          <div className="flex flex-col p-6 sm:p-8 lg:p-10">
+            {/* Heading */}
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-[0.25em] text-red-700">
+                Professional Service
+              </p>
+
+              <h1 className="mt-3 text-3xl font-extrabold tracking-tight text-white sm:text-4xl lg:text-5xl">
+                {card.title}
+              </h1>
+
+              <p className="mt-5 text-base leading-7 text-gray-400">
+                {card.desc}
+              </p>
+            </div>
+
+            {/* Price / Duration */}
+            <div className="mt-8 grid grid-cols-2 gap-4">
+              <div className="rounded-xl border border-white/10 bg-white/[0.04] p-5">
+                <div className="mb-2 flex items-center gap-2 text-gray-500">
+                  <i className="ri-price-tag-3-line text-lg" />
+
+                  <span className="text-xs font-medium uppercase tracking-wider">
+                    Starting From
+                  </span>
+                </div>
+
+                <p className="text-2xl font-bold text-red-700">
+                  {card.price}
+                </p>
+              </div>
+
+              <div className="rounded-xl border border-white/10 bg-white/[0.04] p-5">
+                <div className="mb-2 flex items-center gap-2 text-gray-500">
+                  <i className="ri-time-line text-lg" />
+
+                  <span className="text-xs font-medium uppercase tracking-wider">
+                    Duration
+                  </span>
+                </div>
+
+                <p className="text-lg font-bold text-white">
+                  {card.duration}
+                </p>
+              </div>
+            </div>
+
+            {/* Included Services */}
+            <div className="mt-9">
+              <div className="mb-5 flex items-center gap-3">
+                <span className="h-px w-8 bg-red-800" />
+
+                <h2 className="text-sm font-bold uppercase tracking-[0.2em] text-white">
+                  What&apos;s Included
+                </h2>
+              </div>
+
+              <div className="grid gap-3 sm:grid-cols-2">
+                {card.features.map((feature, index) => (
+                  <div
+                    key={index}
+                    className="flex items-start gap-3 rounded-lg border border-white/5 bg-white/[0.025] p-3 transition hover:border-red-900/40 hover:bg-white/[0.05]"
+                  >
+                    <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-red-900/20 text-red-700">
+                      <i className="ri-check-line text-sm" />
+                    </span>
+
+                    <span className="text-sm leading-5 text-gray-300">
+                      {feature}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Note */}
+            <div className="mt-8 rounded-xl border-l-2 border-red-800 bg-red-900/10 p-4">
+              <div className="flex gap-3">
+                <i className="ri-information-line mt-0.5 text-lg text-red-700" />
+
+                <div>
+                  <h3 className="text-sm font-semibold text-white">
+                    Service Note
+                  </h3>
+
+                  <p className="mt-1 text-sm leading-6 text-gray-400">
+                    {card.notes}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Actions */}
+            <div className="mt-auto flex flex-col gap-3 pt-9 sm:flex-row">
+              <Link
+                href="/Booking"
+                className="inline-flex flex-1 items-center justify-center gap-3 rounded-lg bg-red-900 px-6 py-3.5 font-semibold text-white shadow-lg shadow-red-950/20 transition-all duration-300 hover:bg-red-800 hover:shadow-red-900/20"
+              >
+                {card.button}
+                <i className="ri-arrow-right-line text-lg" />
+              </Link>
+
+              <Link
+                href="/Cards"
+                className="inline-flex items-center justify-center gap-2 rounded-lg border border-white/10 bg-white/[0.04] px-6 py-3.5 font-semibold text-gray-300 transition-all duration-300 hover:border-white/20 hover:bg-white/[0.08] hover:text-white"
+              >
+                <i className="ri-arrow-left-line" />
+                All Services
+              </Link>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-</div>
-
+    </main>
   );
 }
