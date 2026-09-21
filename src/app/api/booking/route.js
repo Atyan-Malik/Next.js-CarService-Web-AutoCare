@@ -3,7 +3,7 @@ import Booking from "@/models/Booking";
 
 connectDB();
 
-// Create booking
+
 export async function POST(req) {
   try {
     const data = await req.json();
@@ -14,7 +14,7 @@ export async function POST(req) {
   }
 }
 
-// Get all bookings
+
 export async function GET(req) {
   try {
     const bookings = await Booking.find();
@@ -24,7 +24,6 @@ export async function GET(req) {
   }
 }
 
-// Update booking
 export async function PUT(req) {
   try {
     const { id, ...updateData } = await req.json();
